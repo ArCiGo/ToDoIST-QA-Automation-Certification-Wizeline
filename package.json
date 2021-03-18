@@ -1,0 +1,16 @@
+{
+  "name": "todoist",
+  "version": "1.0.0",
+  "description": "ToDoIST Assessment for QA Certification sponsored by Wizeline",
+  "main": "index.js",
+  "scripts": {
+    "test-API": "npx newman run ./App/tests/backend/collection/Assessment2ToDoIST.postman_collection.json -e ./App/tests/backend/envVariables/Assessment2.postman_environment.json -d ./App/tests/backend/data/TasksDDT.csv -r htmlextra --reporter-htmlextra-export ./App/tests/backend/reports/report.html",
+    "test-API-neg": "npx newman run ./App/tests/backend/collection/Assessment2ToDoISTNeg.postman_collection.json -e ./App/tests/backend/envVariables/Assessment2.postman_environment.json -d ./App/tests/backend/data/TasksDDT.csv -r htmlextra --reporter-htmlextra-export ./App/tests/backend/reports/report_neg.html"
+  },
+  "author": "Armando Cifuentes González (ArCiGo)",
+  "license": "ISC",
+  "dependencies": {
+    "newman": "^5.2.2",
+    "newman-reporter-htmlextra": "^1.20.1"
+  }
+}

@@ -1,0 +1,832 @@
+{
+	"info": {
+		"_postman_id": "fa82a973-44ad-4633-89f2-dd36640dc7e1",
+		"name": "Assessment2ToDoISTNeg",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Create a new task",
+					"item": [
+						{
+							"name": "Create a new task (neg)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var Ajv = require('ajv'),\r",
+											"    ajv = new Ajv({logger: console}),\r",
+											"    schema = {\r",
+											"    \"required\": [\r",
+											"        \"id\",\r",
+											"        \"assigner\",\r",
+											"        \"project_id\",\r",
+											"        \"section_id\",\r",
+											"        \"order\",\r",
+											"        \"content\",\r",
+											"        \"completed\",\r",
+											"        \"label_ids\",\r",
+											"        \"priority\",\r",
+											"        \"comment_count\",\r",
+											"        \"creator\",\r",
+											"        \"created\",\r",
+											"        \"due\",\r",
+											"        \"url\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"id\": {\r",
+											"            \"$id\": \"#/properties/id\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"assigner\": {\r",
+											"            \"$id\": \"#/properties/assigner\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"project_id\": {\r",
+											"            \"$id\": \"#/properties/project_id\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"section_id\": {\r",
+											"            \"$id\": \"#/properties/section_id\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"order\": {\r",
+											"            \"$id\": \"#/properties/order\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"content\": {\r",
+											"            \"$id\": \"#/properties/content\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"completed\": {\r",
+											"            \"$id\": \"#/properties/completed\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"label_ids\": {\r",
+											"            \"$id\": \"#/properties/label_ids\",\r",
+											"            \"type\": \"array\"\r",
+											"        },\r",
+											"        \"priority\": {\r",
+											"            \"$id\": \"#/properties/priority\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"comment_count\": {\r",
+											"            \"$id\": \"#/properties/comment_count\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"creator\": {\r",
+											"            \"$id\": \"#/properties/creator\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"created\": {\r",
+											"            \"$id\": \"#/properties/created\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"due\": {\r",
+											"            \"required\": [\r",
+											"                \"recurring\",\r",
+											"                \"string\",\r",
+											"                \"date\"\r",
+											"            ],\r",
+											"            \"properties\": {\r",
+											"                \"recurring\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/recurring\",\r",
+											"                    \"type\": \"boolean\"\r",
+											"                },\r",
+											"                \"string\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/string\",\r",
+											"                    \"type\": \"string\"\r",
+											"                },\r",
+											"                \"date\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/date\",\r",
+											"                    \"type\": \"string\"\r",
+											"                }\r",
+											"            },\r",
+											"            \"$id\": \"#/properties/due\",\r",
+											"            \"type\": \"object\"\r",
+											"        },\r",
+											"        \"url\": {\r",
+											"            \"$id\": \"#/properties/url\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"$id\": \"http://example.org/root.json#\",\r",
+											"    \"type\": \"object\",\r",
+											"    \"definitions\": {},\r",
+											"    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\r",
+											"};\r",
+											"var jsonData = pm.response.json();\r",
+											"var taskName = pm.environment.get(\"taskName\");\r",
+											"\r",
+											"pm.test(\"Status code is 2xx\", function () {\r",
+											"    pm.response.to.be.success;\r",
+											"});\r",
+											" \r",
+											"pm.test('Schema isn\\'t valid', function() {\r",
+											"    pm.expect(ajv.validate(schema, jsonData)).to.be.false;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Task name isn\\'t correct\", function () {\r",
+											"    pm.expect(jsonData.content).to.not.eql(\"Negative testing\");\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"taskId\", jsonData.id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var moment = require('moment');\r",
+											"\r",
+											"pm.environment.set(\"currentDate\", moment().format((\"YYYY-MM-DD\")));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-Requested-Id",
+										"value": "$(uuidgen)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"{{taskName}}\",\r\n    \"due_date\": \"{{currentDate}}\",\r\n    \"due_lang\": \"en\",\r\n    \"priority\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}",
+									"host": [
+										"{{baseURL}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create multiple tasks (neg)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var Ajv = require('ajv'),\r",
+											"    ajv = new Ajv({logger: console}),\r",
+											"    schema = {\r",
+											"    \"required\": [\r",
+											"        \"id\",\r",
+											"        \"assigner\",\r",
+											"        \"project_id\",\r",
+											"        \"section_id\",\r",
+											"        \"order\",\r",
+											"        \"content\",\r",
+											"        \"completed\",\r",
+											"        \"label_ids\",\r",
+											"        \"priority\",\r",
+											"        \"comment_count\",\r",
+											"        \"creator\",\r",
+											"        \"created\",\r",
+											"        \"due\",\r",
+											"        \"url\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"id\": {\r",
+											"            \"$id\": \"#/properties/id\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"assigner\": {\r",
+											"            \"$id\": \"#/properties/assigner\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"project_id\": {\r",
+											"            \"$id\": \"#/properties/project_id\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"section_id\": {\r",
+											"            \"$id\": \"#/properties/section_id\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"order\": {\r",
+											"            \"$id\": \"#/properties/order\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"content\": {\r",
+											"            \"$id\": \"#/properties/content\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"completed\": {\r",
+											"            \"$id\": \"#/properties/completed\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"label_ids\": {\r",
+											"            \"$id\": \"#/properties/label_ids\",\r",
+											"            \"type\": \"array\"\r",
+											"        },\r",
+											"        \"priority\": {\r",
+											"            \"$id\": \"#/properties/priority\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"comment_count\": {\r",
+											"            \"$id\": \"#/properties/comment_count\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"creator\": {\r",
+											"            \"$id\": \"#/properties/creator\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"created\": {\r",
+											"            \"$id\": \"#/properties/created\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"due\": {\r",
+											"            \"required\": [\r",
+											"                \"recurring\",\r",
+											"                \"string\",\r",
+											"                \"date\"\r",
+											"            ],\r",
+											"            \"properties\": {\r",
+											"                \"recurring\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/recurring\",\r",
+											"                    \"type\": \"boolean\"\r",
+											"                },\r",
+											"                \"string\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/string\",\r",
+											"                    \"type\": \"string\"\r",
+											"                },\r",
+											"                \"date\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/date\",\r",
+											"                    \"type\": \"string\"\r",
+											"                }\r",
+											"            },\r",
+											"            \"$id\": \"#/properties/due\",\r",
+											"            \"type\": \"object\"\r",
+											"        },\r",
+											"        \"url\": {\r",
+											"            \"$id\": \"#/properties/url\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"$id\": \"http://example.org/root.json#\",\r",
+											"    \"type\": \"object\",\r",
+											"    \"definitions\": {},\r",
+											"    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\r",
+											"};\r",
+											"var jsonData = pm.response.json();\r",
+											"pm.environment.set(\"taskNameDDTIteration\", jsonData.content);\r",
+											"\r",
+											"pm.test(\"Status code is 2xx\", function () {\r",
+											"    pm.response.to.be.success;\r",
+											"});\r",
+											"\r",
+											"pm.test('Schema isn\\'t valid', function() {\r",
+											"    pm.expect(ajv.validate(schema, jsonData)).to.be.false;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Task name isn\\'t correct\", function () {\r",
+											"    pm.expect(jsonData.content).to.not.eql(\"DDT Negative testing\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-Requested-Id",
+										"value": "$(uuidgen)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"{{taskNameDDT}}\",\r\n    \"due_date\": \"{{dueDateDDT}}\",\r\n    \"due_lang\": \"{{dueLangDDT}}\",\r\n    \"priority\": {{priorityDDT}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}",
+									"host": [
+										"{{baseURL}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get active tasks",
+					"item": [
+						{
+							"name": "Get active tasks (neg)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var Ajv = require('ajv'),\r",
+											"    ajv = new Ajv({logger: console}),\r",
+											"    schema = {\r",
+											"    \"items\": {\r",
+											"        \"required\": [\r",
+											"            \"id\",\r",
+											"            \"assigner\",\r",
+											"            \"project_id\",\r",
+											"            \"section_id\",\r",
+											"            \"order\",\r",
+											"            \"content\",\r",
+											"            \"completed\",\r",
+											"            \"label_ids\",\r",
+											"            \"priority\",\r",
+											"            \"comment_count\",\r",
+											"            \"creator\",\r",
+											"            \"created\",\r",
+											"            \"url\"\r",
+											"        ],\r",
+											"        \"properties\": {\r",
+											"            \"id\": {\r",
+											"                \"$id\": \"#/items/properties/id\",\r",
+											"                \"type\": \"integer\"\r",
+											"            },\r",
+											"            \"assigner\": {\r",
+											"                \"$id\": \"#/items/properties/assigner\",\r",
+											"                \"type\": \"integer\"\r",
+											"            },\r",
+											"            \"project_id\": {\r",
+											"                \"$id\": \"#/items/properties/project_id\",\r",
+											"                \"type\": \"integer\"\r",
+											"            },\r",
+											"            \"section_id\": {\r",
+											"                \"$id\": \"#/items/properties/section_id\",\r",
+											"                \"type\": \"integer\"\r",
+											"            },\r",
+											"            \"order\": {\r",
+											"                \"$id\": \"#/items/properties/order\",\r",
+											"                \"type\": \"integer\"\r",
+											"            },\r",
+											"            \"content\": {\r",
+											"                \"$id\": \"#/items/properties/content\",\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"completed\": {\r",
+											"                \"$id\": \"#/items/properties/completed\",\r",
+											"                \"type\": \"boolean\"\r",
+											"            },\r",
+											"            \"label_ids\": {\r",
+											"                \"$id\": \"#/items/properties/label_ids\",\r",
+											"                \"type\": \"array\"\r",
+											"            },\r",
+											"            \"priority\": {\r",
+											"                \"$id\": \"#/items/properties/priority\",\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"comment_count\": {\r",
+											"                \"$id\": \"#/items/properties/comment_count\",\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"creator\": {\r",
+											"                \"$id\": \"#/items/properties/creator\",\r",
+											"                \"type\": \"boolean\"\r",
+											"            },\r",
+											"            \"created\": {\r",
+											"                \"$id\": \"#/items/properties/created\",\r",
+											"                \"type\": \"string\"\r",
+											"            },\r",
+											"            \"url\": {\r",
+											"                \"$id\": \"#/items/properties/url\",\r",
+											"                \"type\": \"string\"\r",
+											"            }\r",
+											"        },\r",
+											"        \"$id\": \"#/items\",\r",
+											"        \"type\": \"object\"\r",
+											"    },\r",
+											"    \"$id\": \"http://example.org/root.json#\",\r",
+											"    \"type\": \"array\",\r",
+											"    \"definitions\": {},\r",
+											"    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\r",
+											"};\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 2xx\", function () {\r",
+											"    pm.response.to.be.success;\r",
+											"});\r",
+											"\r",
+											"pm.test('Schema isn\\'t valid', function() {\r",
+											"    pm.expect(ajv.validate(schema, jsonData)).to.be.false;\r",
+											"});\r",
+											"\r",
+											"const activeTasksIDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];\r",
+											"\r",
+											"pm.test(\"Verify the IDs of active tasks created by default by ToDoIST are not the same\", function() {\r",
+											"    for(let i = 0; i < parseInt(jsonData.length); i ++) {\r",
+											"        pm.expect(jsonData[i].id == activeTasksIDs[i]).to.be.false;\r",
+											"    }\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}",
+									"host": [
+										"{{baseURL}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get an active task",
+					"item": [
+						{
+							"name": "Get an active task (neg)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var Ajv = require('ajv'),\r",
+											"    ajv = new Ajv({logger: console}),\r",
+											"    schema = {\r",
+											"    \"required\": [\r",
+											"        \"id\",\r",
+											"        \"assigner\",\r",
+											"        \"project_id\",\r",
+											"        \"section_id\",\r",
+											"        \"order\",\r",
+											"        \"content\",\r",
+											"        \"completed\",\r",
+											"        \"label_ids\",\r",
+											"        \"priority\",\r",
+											"        \"comment_count\",\r",
+											"        \"creator\",\r",
+											"        \"created\",\r",
+											"        \"due\",\r",
+											"        \"url\"\r",
+											"    ],\r",
+											"    \"properties\": {\r",
+											"        \"id\": {\r",
+											"            \"$id\": \"#/properties/id\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"assigner\": {\r",
+											"            \"$id\": \"#/properties/assigner\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"project_id\": {\r",
+											"            \"$id\": \"#/properties/project_id\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"section_id\": {\r",
+											"            \"$id\": \"#/properties/section_id\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"order\": {\r",
+											"            \"$id\": \"#/properties/order\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"content\": {\r",
+											"            \"$id\": \"#/properties/content\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"completed\": {\r",
+											"            \"$id\": \"#/properties/completed\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"label_ids\": {\r",
+											"            \"$id\": \"#/properties/label_ids\",\r",
+											"            \"type\": \"array\"\r",
+											"        },\r",
+											"        \"priority\": {\r",
+											"            \"$id\": \"#/properties/priority\",\r",
+											"            \"type\": \"integer\"\r",
+											"        },\r",
+											"        \"comment_count\": {\r",
+											"            \"$id\": \"#/properties/comment_count\",\r",
+											"            \"type\": \"boolean\"\r",
+											"        },\r",
+											"        \"creator\": {\r",
+											"            \"$id\": \"#/properties/creator\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"created\": {\r",
+											"            \"$id\": \"#/properties/created\",\r",
+											"            \"type\": \"string\"\r",
+											"        },\r",
+											"        \"due\": {\r",
+											"            \"required\": [\r",
+											"                \"recurring\",\r",
+											"                \"string\",\r",
+											"                \"date\"\r",
+											"            ],\r",
+											"            \"properties\": {\r",
+											"                \"recurring\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/recurring\",\r",
+											"                    \"type\": \"boolean\"\r",
+											"                },\r",
+											"                \"string\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/string\",\r",
+											"                    \"type\": \"string\"\r",
+											"                },\r",
+											"                \"date\": {\r",
+											"                    \"$id\": \"#/properties/due/properties/date\",\r",
+											"                    \"type\": \"string\"\r",
+											"                }\r",
+											"            },\r",
+											"            \"$id\": \"#/properties/due\",\r",
+											"            \"type\": \"object\"\r",
+											"        },\r",
+											"        \"url\": {\r",
+											"            \"$id\": \"#/properties/url\",\r",
+											"            \"type\": \"string\"\r",
+											"        }\r",
+											"    },\r",
+											"    \"$id\": \"http://example.org/root.json#\",\r",
+											"    \"type\": \"object\",\r",
+											"    \"definitions\": {},\r",
+											"    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\r",
+											"};\r",
+											"var jsonData = pm.response.json();\r",
+											"var taskID = pm.environment.get(\"taskId\");\r",
+											"var taskName = pm.environment.get(\"taskName\");\r",
+											"\r",
+											"pm.test(\"Status code is 2xx\", function () {\r",
+											"    pm.response.to.be.success;\r",
+											"});\r",
+											"\r",
+											"pm.test('Schema isn\\'t valid', function() {\r",
+											"    pm.expect(ajv.validate(schema, jsonData)).to.be.false;\r",
+											"});\r",
+											"\r",
+											"pm.test('Task ID isn\\'t correct', function() {\r",
+											"    pm.expect(jsonData.id).to.not.eql(2);\r",
+											"});\r",
+											"\r",
+											"pm.test('Task name is correct', function() {\r",
+											"    pm.expect(jsonData.content).to.not.eql(\"Some awesonme negative task\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/{{taskId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"{{taskId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update a task",
+					"item": [
+						{
+							"name": "Update a task (neg)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"The status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var moment = require('moment');\r",
+											"\r",
+											"pm.environment.set(\"tomorrowDate\", moment(moment().add(1, 'd')).format('YYYY-MM-DD'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-Requested-Id",
+										"value": "$(uuidgen)",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"content\": \"An updated task\",\r\n    \"due_date\": \"{{tomorrowDate}}\",\r\n    \"due_lang\": \"en\",\r\n    \"priority\": 3\r\n}"
+								},
+								"url": {
+									"raw": "{{baseURL}}/{{taskId}}/u/u",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"{{taskId}}",
+										"u",
+										"u"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Change a task status to complete",
+					"item": [
+						{
+							"name": "Close a task (Complete a task) (neg)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"The status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/{{taskId}}/done",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"{{taskId}}",
+										"done"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reopen a task",
+					"item": [
+						{
+							"name": "Reopen a completed task (neg)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"The status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/{{taskId}}/abrir",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"{{taskId}}",
+										"abrir"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete a task",
+					"item": [
+						{
+							"name": "Deleting an existing task (neg)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"The status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/{{taskId}}/deleteThis",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"{{taskId}}",
+										"deleteThis"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is greater than 45ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.not.be.below(45);",
+					"});"
+				]
+			}
+		}
+	]
+}
