@@ -21,6 +21,12 @@ Basic ToDoIST API Automation Framework
 
 **Note:** Not all requests returns content or JSON schema
 
+### Bonus:
+
+- [ ] API keys inside CI/CD pipeline
+- [x] Add a visual reporter
+- [x] Use DDT to create several tasks
+
 ### How to run the project
 
 ```console
