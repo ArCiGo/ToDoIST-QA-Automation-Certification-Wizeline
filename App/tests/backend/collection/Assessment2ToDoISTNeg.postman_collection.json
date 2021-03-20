@@ -635,7 +635,11 @@
 										"exec": [
 											"pm.test(\"The status code is 404\", function () {\r",
 											"    pm.response.to.have.status(404);\r",
-											"});"
+											"});\r",
+											"\r",
+											"pm.test(\"Body should print a 404 text\", function() {\r",
+											"    pm.expect(pm.response.text()).to.contains('404 page not found');\r",
+											"})"
 										],
 										"type": "text/javascript"
 									}
@@ -698,7 +702,11 @@
 										"exec": [
 											"pm.test(\"The status code is 404\", function () {\r",
 											"    pm.response.to.have.status(404);\r",
-											"});"
+											"});\r",
+											"\r",
+											"pm.test(\"Body should print a 404 text\", function() {\r",
+											"    pm.expect(pm.response.text()).to.contains('404 page not found');\r",
+											"})"
 										],
 										"type": "text/javascript"
 									}
@@ -734,7 +742,11 @@
 										"exec": [
 											"pm.test(\"The status code is 404\", function () {\r",
 											"    pm.response.to.have.status(404);\r",
-											"});"
+											"});\r",
+											"\r",
+											"pm.test(\"Body should print a 404 text\", function() {\r",
+											"    pm.expect(pm.response.text()).to.contains('404 page not found');\r",
+											"})"
 										],
 										"type": "text/javascript"
 									}
